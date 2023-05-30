@@ -1,3 +1,28 @@
+import React, { useEffect, useState } from "react";
+import BotCard from "./BotCard";
+
+function BotCollection() {
+  const [bots, setBots] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8002/bots")
+      .then((resp) => resp.json())
+      .then((data) => setBots(data));
+  }, []);
+
+  return (
+    <div className="ui four column grid">
+      <div className="row">
+        <h1>Collection of all bots</h1>
+        {bots.map((bot) => (
+          <BotCard key={bot.id} bot={bot} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default BotCollection;
 /*
 import React, { useEffect, useState } from "react";
 import BotSpecs from "./BotSpecs";
@@ -28,28 +53,3 @@ function BotCollection(props) {
 
 export default BotCollection; 
 */
-import React, { useEffect, useState } from "react";
-import BotCard from "./BotCard";
-
-function BotCollection() {
-  const [bots, setBots] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:8002/bots")
-      .then((resp) => resp.json())
-      .then((data) => setBots(data));
-  }, []);
-
-  return (
-    <div className="ui four column grid">
-      <div className="row">
-        <h1>Collection of all bots</h1>
-        {bots.map((bot) => (
-          <BotCard key={bot.id} bot={bot} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default BotCollection;

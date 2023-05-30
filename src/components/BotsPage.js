@@ -18,7 +18,7 @@ function BotsPage() {
   return (
     <div>
       <YourBotArmy bots={bots} removeBot={handleRemoveBot} />
-      <BotCollection addBot={handleAddBot} />
+      <BotCollection  bots={bots} addBot={handleAddBot} />
     </div>
   );
 }

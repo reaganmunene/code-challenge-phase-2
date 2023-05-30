@@ -9,9 +9,20 @@ const botTypeClasses = {
   Captain: "icon star",
 };
 
-function BotCard({ bot, addBot }) {
+function BotCard({ bot, addBot, setArmy }) {
   const handleAddBot = () => {
     addBot(bot);
+  };
+
+  const handleDeleteBot = async () => {
+    try {
+      await fetch(`http://localhost:8002/bots/${bot.id}`, {
+        method: "DELETE"
+      });
+      setArmy((prevArmy) => prevArmy.filter((b) => b.id !== bot.id));
+    } catch (error) {
+      console.error("Failed Loading...");
+    }
   };
 
   return (
@@ -46,7 +57,7 @@ function BotCard({ bot, addBot }) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={() => console.log("Add code to delete the bot")}
+                onClick={handleDeleteBot}
               >
                 x
               </button>

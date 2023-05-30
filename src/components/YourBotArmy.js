@@ -10,7 +10,7 @@ function YourBotArmy({ bots, removeBot }) {
         </div>
         <div className="row">
           {bots.map((bot) => (
-            <BotCard key={bot.id} bot={bot} removeBot={removeBot} />
+            <BotCard key={bot.id} bot={bot} removeBot={()=> removeBot} />
           ))}
         </div>
       </div>

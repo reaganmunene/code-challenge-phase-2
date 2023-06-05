@@ -1,34 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import YourBotArmy from "./YourBotArmy";
 import BotCollection from "./BotCollection";
 
 function BotsPage() {
-  const [bots, setBots] = useState([]);
-  const [army, setArmy] = useState([]);
-
-
- 
-  const handleAddBot = (bot) => {
-    setBots([...bots, bot]);
-  };
-
+  //start here with your code for step one
   
-  const handleRemoveBot = (botId) => {
-    setBots(bots.filter((bot) => bot.id !== botId));
-  };
+  const[bots, setBots] = useState([]);
 
-  
-  useEffect(() => {
+  useEffect (() => {
     fetch("http://localhost:8002/bots")
-      .then((resp) => resp.json())
-      .then((data) => setBots(bots));
-  }, );
+    .then((response) => response.json())
+    .then((data) => setBots(data))
+    .catch((error) => console.log(error));
+  }, []);
+
+  const addBot = (bot) => {
+    setBots(bots.map((b) => (bot.id === bot.id ? { ...bot, army: true } : bot)));
+  };
+
+
+const removeBot = (bot) => {
+  setBots(bots.map((b) => (b.id === bot.id ? { ...b, army: false } : b)));
+};
+
+
+const deleteBot = (bot) => {
+  const updatedBots = bots.filter((b) => b.id !== bot.id);
+  setBots(updatedBots);
+};
 
 
   return (
     <div>
-      <YourBotArmy bots={bots} removeBot={handleRemoveBot} army={army} setArmy={setArmy} />
-      <BotCollection  bots={bots} addBot={handleAddBot} army={army} setArmy={setArmy}  />
+      <YourBotArmy  bots={bots.filter((bot)=>bot.army)} removeBot={removeBot} deleteBot={deleteBot} />
+      <BotCollection bots={bots} addBot={addBot} deleteBot={deleteBot} />
     </div>
   );
 }
